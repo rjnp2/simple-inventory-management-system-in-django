@@ -1,1 +1,1 @@
-"# simple-inventory-management-system-in-django" 
+# simple-inventory-management-system-in-django
