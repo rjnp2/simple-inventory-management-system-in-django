@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Delivery List{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="card card-body">
+            <h5>Add New Delivery</h5>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-success btn-block" type="submit" value="Add">
+            </form>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Delivery List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th>Delivered Order</th>
+                                <th>Courier Name</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if delivery %}
+                            {% for delivery in delivery %}
+                            <tr>
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ delivery.order }}</td>
+                                <td>{{ delivery.courier_name }}</td>
+                                <td>{{ delivery.created_date }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>No Delivery Data</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+    
+</div>
+{% endblock content %}

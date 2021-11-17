@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Product List{% endblock title %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-3">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="card card-body">
+            <h5>Add New Products</h5>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-success btn-block" type="submit" value="Add">
+            </form>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card-body">
+            <h4 class="box-title">Product List </h4>
+        </div>
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+                <tr>
+                    <th class="serial">#</th>
+                    <th>Name</th>
+                    <th>stock</th>
+                    <th>category</th>
+                    <th>is_available</th>
+                    <th>create_date</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if product %}
+                {% for produc in product %}
+                <tr>
+                    <td class="serial">{{ forloop.counter }}</td>
+                    <td>{{ produc.product_name }}</td>
+                    <td>{{ produc.stock }}</td>
+                    <td>{{ produc.category }}</td>
+                    <td>{{ produc.is_available }}</td>
+                    <td>{{ produc.create_date }}</td>
+                    <td> <a class="btn btn-danger btn-sm mr-2" href="{% url 'product_delete' produc.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td>No Product Data</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
